@@ -28,7 +28,7 @@ export function Movies() {
     // Отримайте результати пошуку за ключовим словом з API і збережіть їх в стані
     const fetchSearchResults = async () => {
       try {
-        const response = await api.get('/search/search-movies', {
+        const response = await api.get('/search/movie', {
           params: { query: searchQuery },
         });
         setSearchResults(response.data.results);

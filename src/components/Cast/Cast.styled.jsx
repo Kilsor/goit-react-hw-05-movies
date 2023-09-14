@@ -10,7 +10,7 @@ export const ActorList = styled.ul`
   list-style: none;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
 `;
 
@@ -19,9 +19,10 @@ export const ActorItem = styled.li`
 `;
 
 export const ActorImage = styled.img`
-  max-width: 100%;
-  height: auto;
-  border-radius: 50%;
+  width: 200px; /* Задайте фіксовану ширину, яка вам підходить */
+  height: 300px; /* Задайте фіксовану висоту, яка вам підходить */
+  object-fit: cover; /* Заповнює зображення в контейнері */
+  border-radius: 10%;
 `;
 
 export const ActorName = styled.p`

@@ -13,7 +13,7 @@ export const MovieTitle = styled.h1`
 `;
 
 export const MoviePoster = styled.img`
-  max-width: 100%;
+  max-width: 300px;
   height: auto;
   margin-top: 20px;
 `;

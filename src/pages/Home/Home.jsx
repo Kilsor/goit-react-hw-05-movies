@@ -17,7 +17,7 @@ export function Home() {
     // Отримайте список популярних фільмів з API і збережіть їх в стані
     const fetchTrendingMovies = async () => {
       try {
-        const response = await api.get('/trending/get-trending');
+        const response = await api.get('/trending/movie/day');
         setTrendingMovies(response.data.results);
       } catch (error) {
         console.error('Помилка при отриманні популярних фільмів:', error);

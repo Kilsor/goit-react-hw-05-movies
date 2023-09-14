@@ -17,7 +17,7 @@ export function Reviews() {
     // Отримайте огляди для конкретного фільму за його ID з API і збережіть їх в стані
     const fetchMovieReviews = async () => {
       try {
-        const response = await api.get(`/movies/get-movie-reviews/${movieId}`);
+        const response = await api.get(`/movie/${movieId}/reviews`);
         setReviews(response.data.results);
       } catch (error) {
         console.error('Помилка при отриманні оглядів:', error);
@@ -35,12 +35,10 @@ export function Reviews() {
       ) : (
         <ul>
           {reviews.map(review => (
-            <li key={review.id}>
-              <ReviewItem>
-                <ReviewAuthor>{review.author}</ReviewAuthor>
-                <ReviewContent>{review.content}</ReviewContent>
-              </ReviewItem>
-            </li>
+            <ReviewItem key={review.id}>
+              <ReviewAuthor>{review.author}</ReviewAuthor>
+              <ReviewContent>{review.content}</ReviewContent>
+            </ReviewItem>
           ))}
         </ul>
       )}
