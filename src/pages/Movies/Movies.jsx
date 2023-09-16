@@ -1,67 +1,54 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { api } from '../../components/Api';
+import { MovieList } from 'components/MovieList/MovieList';
+import { SearchBar } from 'components/SearchBar/SearchBar';
+import { fetchMovies } from '../../components/Api';
 
-import {
-  Container,
-  SearchBar,
-  MovieList,
-  MovieItem,
-  MoviePoster,
-  MovieTitle,
-} from './Movies.styled';
+import { Container } from './Movies.styled';
+
+const getIntialFilters = () => {
+  const savedFilters = localStorage.getItem('quiz-filters');
+  if (savedFilters !== null) {
+    return JSON.parse(savedFilters);
+  }
+  return {
+    search: '',
+  };
+};
 
 export function Movies() {
-  const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [filters, setFilters] = useState(getIntialFilters);
 
-  const handleSearchChange = e => {
-    setSearchQuery(e.target.value);
+  const changeFilters = (value, key) => {
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      [key]: value,
+    }));
   };
 
   useEffect(() => {
-    if (!searchQuery) {
+    if (!filters.search) {
       setSearchResults([]);
       return;
     }
 
-    // Отримайте результати пошуку за ключовим словом з API і збережіть їх в стані
     const fetchSearchResults = async () => {
       try {
-        const response = await api.get('/search/movie', {
-          params: { query: searchQuery },
-        });
-        setSearchResults(response.data.results);
+        const results = await fetchMovies(filters.search);
+        setSearchResults(results);
       } catch (error) {
         console.error('Помилка при отриманні результатів пошуку:', error);
       }
     };
 
     fetchSearchResults();
-  }, [searchQuery]);
+  }, [filters.search]);
 
   return (
     <Container>
       <h1>Пошук фільмів</h1>
-      <SearchBar
-        type="text"
-        placeholder="Пошук фільмів"
-        value={searchQuery}
-        onChange={handleSearchChange}
-      />
-      <MovieList>
-        {searchResults.map(movie => (
-          <Link to={`/movies/${movie.id}`} key={movie.id}>
-            <MovieItem>
-              <MoviePoster
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                alt={movie.title}
-              />
-              <MovieTitle>{movie.title}</MovieTitle>
-            </MovieItem>
-          </Link>
-        ))}
-      </MovieList>
+      <SearchBar search={filters.search} onChange={changeFilters} />
+      <MovieList movies={searchResults} />
     </Container>
   );
 }

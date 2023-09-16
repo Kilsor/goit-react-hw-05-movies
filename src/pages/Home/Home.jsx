@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { api } from '../../components/Api';
+import { fetchTrendingMovies } from '../../components/Api';
 
 import {
   Container,
@@ -15,16 +15,16 @@ export function Home() {
 
   useEffect(() => {
     // Отримайте список популярних фільмів з API і збережіть їх в стані
-    const fetchTrendingMovies = async () => {
+    const fetchMovies = async () => {
       try {
-        const response = await api.get('/trending/movie/day');
-        setTrendingMovies(response.data.results);
+        const response = await fetchTrendingMovies();
+        setTrendingMovies(response.results);
       } catch (error) {
         console.error('Помилка при отриманні популярних фільмів:', error);
       }
     };
 
-    fetchTrendingMovies();
+    fetchMovies();
   }, []);
 
   return (

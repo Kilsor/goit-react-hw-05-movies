@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { api } from '../Api';
+import { fetchMovieReviews } from 'components/Api';
 
 import {
   RevContainer,
@@ -15,16 +15,16 @@ export function Reviews() {
 
   useEffect(() => {
     // Отримайте огляди для конкретного фільму за його ID з API і збережіть їх в стані
-    const fetchMovieReviews = async () => {
+    const fetchReviews = async () => {
       try {
-        const response = await api.get(`/movie/${movieId}/reviews`);
-        setReviews(response.data.results);
+        const results = await fetchMovieReviews(movieId); // Використовуємо новий метод
+        setReviews(results);
       } catch (error) {
         console.error('Помилка при отриманні оглядів:', error);
       }
     };
 
-    fetchMovieReviews();
+    fetchReviews();
   }, [movieId]);
 
   return (

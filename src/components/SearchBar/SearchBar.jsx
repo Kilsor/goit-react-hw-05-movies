@@ -1,32 +1,12 @@
-import React, { useState } from 'react';
+import { SearchBarContainer } from './SearchBar.styled';
 
-import {
-  SearchBarContainer,
-  SearchInput,
-  SearchButton,
-} from './SearchBar.styled';
-
-export function SearchBar({ onSearch }) {
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const handleInputChange = e => {
-    setSearchQuery(e.target.value);
-  };
-
-  const handleSearch = () => {
-    // Виконайте пошук і передайте результати через зазначену функцію зовнішнього компонента
-    onSearch(searchQuery);
-  };
-
+export const SearchBar = ({ search, onChange }) => {
   return (
-    <SearchBarContainer>
-      <SearchInput
-        type="text"
-        placeholder="Пошук фільмів"
-        value={searchQuery}
-        onChange={handleInputChange}
-      />
-      <SearchButton onClick={handleSearch}>Пошук</SearchButton>
-    </SearchBarContainer>
+    <SearchBarContainer
+      type="text"
+      placeholder="Пошук фільмів"
+      value={search}
+      onChange={evt => onChange(evt.target.value, 'search')}
+    />
   );
-}
+};

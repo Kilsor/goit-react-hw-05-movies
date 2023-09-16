@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Outlet } from 'react-router-dom';
-import { api } from '../../components/Api';
+import { fetchMovieById } from '../../components/Api'; // Змінено імпорт
 
 import {
   Container,
@@ -19,8 +19,8 @@ export function MovieDetails() {
     // Отримайте повну інформацію про фільм за його ID з API і збережіть її в стані
     const fetchMovieDetails = async () => {
       try {
-        const response = await api.get(`/movie/${movieId}`);
-        setMovieDetails(response.data);
+        const response = await fetchMovieById(movieId); // Використання нової функції fetchMovieById
+        setMovieDetails(response);
       } catch (error) {
         console.error('Помилка при отриманні інформації про фільм:', error);
       }

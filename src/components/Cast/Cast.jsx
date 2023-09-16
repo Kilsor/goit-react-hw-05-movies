@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { api } from '../Api';
-
+import { fetchMovieCast } from 'components/Api';
 import {
   CastContainer,
   ActorList,
@@ -16,10 +15,10 @@ export function Cast() {
 
   useEffect(() => {
     // Отримайте інформацію про акторський склад для конкретного фільму за його ID з API і збережіть її в стані
-    const fetchMovieCast = async () => {
+    const fetchCast = async () => {
       try {
-        const response = await api.get(`/movie/${movieId}/credits`);
-        setCast(response.data.cast);
+        const castData = await fetchMovieCast(movieId); // Використовуємо новий метод
+        setCast(castData);
       } catch (error) {
         console.error(
           'Помилка при отриманні інформації про акторський склад:',
@@ -28,7 +27,7 @@ export function Cast() {
       }
     };
 
-    fetchMovieCast();
+    fetchCast();
   }, [movieId]);
 
   return (
